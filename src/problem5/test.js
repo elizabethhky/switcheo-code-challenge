@@ -1,3 +1,5 @@
+pragma solidity ^0.8.0;
+
 interface ERC20 {
     function balanceOf(address _owner) external view returns (uint256 balance);
 }

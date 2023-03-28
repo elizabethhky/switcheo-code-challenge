@@ -1,18 +1,26 @@
-pragma solidity ^0.8.0;
+const { ethers } = require("ethers");
 
-interface ERC20 {
-    function balanceOf(address _owner) external view returns (uint256 balance);
-}
+const ADDR = "0xa9Db3408976adc9E901b0e077C43fE3698cB7460"; // your contract address
+const ABI = [
+  "function getBalances(address account) public view returns (uint256)",
+]; // your contract ABI
 
-contract TokenBalanceRetriever {
-    function getBalances(address wallet, address[] calldata tokens) public view returns (uint256[] memory, uint256[] memory) {
-        uint256 [] memory addresses = new uint256[](tokens.length);
-        uint256[] memory balances = new uint256[](tokens.length);
-        for (uint256 i = 0; i < tokens.length; i++) {
-            ERC20 token = ERC20(tokens[i]);
-            addresses[i] = tokens[i];
-            balances[i] = token.balanceOf(wallet);
-        }
-        return (addresses, balances);
-    }
-}
+const ADDRESS = "…"; // some wallet address with token balance
+const TOKENS = [
+  // token contract addresses
+  "…",
+  "…",
+];
+
+// you can use your own RPC provider url (no need to deploy to mainnet)
+const provider = ethers.providers.getDefaultProvider();
+
+const test = async () => {
+  const contract = new ethers.Contract(ADDR, ABI, provider);
+
+  const balances = await contract.getBalances(ADDRESS, tokens);
+
+  return balances;
+};
+
+test().then(console.log);
